@@ -5,7 +5,7 @@ public class UC {
         int workingHour = 0;
         int totalSalary = 0;
 
-        for (int i = 1; i <= 20; i++) {
+        for (int i = 1; i < 20; i++) {
             Random randomNum = new Random();
             int x = randomNum.nextInt(3);
             if (x == 0) {
