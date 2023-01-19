@@ -1,10 +1,9 @@
 import java.util.Random;
 public class UC {
     public static void main(String[] args) {
-        System.out.println("Welcome to Employee Wage Computation Program on Master Branch.");
-        Random rd = new Random();
-        Boolean a = rd.nextBoolean();
-        if (a){
+        Random randomNum = new Random();
+        int x = randomNum.nextInt(2);
+        if (x == 0){
             System.out.println("Employee is present.");
         }
         else {
