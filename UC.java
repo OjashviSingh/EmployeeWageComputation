@@ -24,6 +24,6 @@ public class UC {
             days++;
         }
         System.out.println("Employee has earned a total of " + totalSalary + " in a month.");
-        System.out.println(workingHour);
+        System.out.println("Total Working hour is :"+workingHour);
     }
 }
