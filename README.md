@@ -1,1 +1,1 @@
-Welcome to Employee Wage Computation Program on Master Branch
+Welcome to Employee Wage Computation Program
