@@ -1,7 +1,7 @@
 public class UC {
-    private int wagePerHour;
-    private int numberOfWorkingDays;
-    private int workingHoursPerMonth;
+    int wagePerHour;
+    int numberOfWorkingDays;
+    int workingHoursPerMonth;
 
     public UC(int wagePerHour, int numberOfWorkingDays, int workingHoursPerMonth) {
         this.wagePerHour = wagePerHour;
