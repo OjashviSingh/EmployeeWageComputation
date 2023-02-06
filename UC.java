@@ -87,24 +87,4 @@ class EmployeeWageManager {
             }
         }
     }
-
-    public HashMap<String, Integer> getTotalWages() {
-        return this.totalWages;
-    }
-}
-
-public class UC {
-    public static void main(String[] args) {
-        EmployeeWageManager manager = new EmployeeWageManager();
-
-        Company c1 = new Company("Company 1");
-        c1.addEmployee(new Employee("Employee 1", 1000));
-        c1.addEmployee(new Employee("Employee 2", 2000));
-        manager.addCompany(c1);
-
-        Company c2 = new Company("Company 2");
-        c2.addEmployee(new Employee("Employee 1", 1000));
-        c2.addEmployee(new Employee("Employee 2", 2000));
-        manager.addCompany(c2);
-    }
 }
