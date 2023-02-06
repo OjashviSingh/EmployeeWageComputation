@@ -1,20 +1,35 @@
 import java.util.ArrayList;
+import java.util.HashMap;
 
 class Employee {
-    String name;
-    int wage;
+    private String name;
+    private int dailyWage;
+    private int daysWorked;
 
-    public Employee(String name, int wage) {
+    public Employee(String name, int dailyWage) {
         this.name = name;
-        this.wage = wage;
+        this.dailyWage = dailyWage;
+        this.daysWorked = 0;
+    }
+
+    public void work() {
+        this.daysWorked++;
+    }
+
+    public int getTotalWage() {
+        return this.dailyWage * this.daysWorked;
     }
 
     public String getName() {
         return this.name;
     }
 
-    public int getWage() {
-        return this.wage;
+    public int getDailyWage() {
+        return this.dailyWage;
+    }
+
+    public int getDaysWorked() {
+        return this.daysWorked;
     }
 }
 
@@ -35,20 +50,18 @@ class Company {
         return this.employees;
     }
 
-    public int getTotalWage() {
-        int totalWage = 0;
-        for (Employee employee : this.employees) {
-            totalWage += employee.getWage();
-        }
-        return totalWage;
+    public String getName() {
+        return this.name;
     }
 }
 
 class EmployeeWageManager {
     private ArrayList<Company> companies;
+    private HashMap<String, Integer> totalWages;
 
     public EmployeeWageManager() {
         this.companies = new ArrayList<>();
+        this.totalWages = new HashMap<>();
     }
 
     public void addCompany(Company company) {
@@ -58,9 +71,29 @@ class EmployeeWageManager {
     public ArrayList<Company> getCompanies() {
         return this.companies;
     }
+
+    public void work(String employeeName) {
+        for (Company company : this.companies) {
+            for (Employee employee : company.getEmployees()) {
+                if (employee.getName().equals(employeeName)) {
+                    employee.work();
+                    if (!this.totalWages.containsKey(employeeName)) {
+                        this.totalWages.put(employeeName, employee.getTotalWage());
+                    } else {
+                        int totalWage = this.totalWages.get(employeeName);
+                        this.totalWages.put(employeeName, totalWage + employee.getDailyWage());
+                    }
+                }
+            }
+        }
+    }
+
+    public HashMap<String, Integer> getTotalWages() {
+        return this.totalWages;
+    }
 }
 
-public class Main {
+public class UC {
     public static void main(String[] args) {
         EmployeeWageManager manager = new EmployeeWageManager();
 
@@ -70,20 +103,8 @@ public class Main {
         manager.addCompany(c1);
 
         Company c2 = new Company("Company 2");
-        c2.addEmployee(new Employee("Employee 3", 1500));
-        c2.addEmployee(new Employee("Employee 4", 2500));
+        c2.addEmployee(new Employee("Employee 1", 1000));
+        c2.addEmployee(new Employee("Employee 2", 2000));
         manager.addCompany(c2);
-
-        ArrayList<Company> companies = manager.getCompanies();
-        for (Company company : companies) {
-            System.out.println("Company: " + company.getName());
-            System.out.println("Employees: ");
-            ArrayList<Employee> employees = company.getEmployees();
-            for (Employee employee : employees) {
-                System.out.println("  " + employee.getName() + " - $" + employee.getWage());
-            }
-            System.out.println("Total wage: $" + company.getTotalWage());
-            System.out.println();
-        }
     }
 }
