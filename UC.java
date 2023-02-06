@@ -1,66 +1,89 @@
 import java.util.ArrayList;
 
-interface IComputeEmpWage {
-    public void addCompanyEmpWage(String company, int empRatePerHour, int workingDays, int maxHoursPerMonth);
-    public void computeEmpWage();
+class Employee {
+    String name;
+    int wage;
+
+    public Employee(String name, int wage) {
+        this.name = name;
+        this.wage = wage;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public int getWage() {
+        return this.wage;
+    }
 }
 
-class CompanyEmpWage {
-    String companyName;
-    int empRatePerHour;
-    int workingDays;
-    int maxHoursPerMonth;
-    int totalWage;
+class Company {
+    private String name;
+    private ArrayList<Employee> employees;
 
-    public CompanyEmpWage(String companyName, int empRatePerHour, int workingDays, int maxHoursPerMonth) {
-        this.companyName = companyName;
-        this.empRatePerHour = empRatePerHour;
-        this.workingDays = workingDays;
-        this.maxHoursPerMonth = maxHoursPerMonth;
+    public Company(String name) {
+        this.name = name;
+        this.employees = new ArrayList<>();
+    }
+
+    public void addEmployee(Employee employee) {
+        this.employees.add(employee);
+    }
+
+    public ArrayList<Employee> getEmployees() {
+        return this.employees;
     }
 
     public int getTotalWage() {
+        int totalWage = 0;
+        for (Employee employee : this.employees) {
+            totalWage += employee.getWage();
+        }
         return totalWage;
     }
+}
 
-    public void setTotalWage(int totalWage) {
-        this.totalWage = totalWage;
+class EmployeeWageManager {
+    private ArrayList<Company> companies;
+
+    public EmployeeWageManager() {
+        this.companies = new ArrayList<>();
     }
 
-    public String getCompanyName() {
-        return companyName;
+    public void addCompany(Company company) {
+        this.companies.add(company);
+    }
+
+    public ArrayList<Company> getCompanies() {
+        return this.companies;
     }
 }
 
-class EmpWageBuilder implements IComputeEmpWage {
-    private ArrayList<CompanyEmpWage> companyEmpWageList;
+public class Main {
+    public static void main(String[] args) {
+        EmployeeWageManager manager = new EmployeeWageManager();
 
-    public EmpWageBuilder() {
-        companyEmpWageList = new ArrayList<>();
-    }
+        Company c1 = new Company("Company 1");
+        c1.addEmployee(new Employee("Employee 1", 1000));
+        c1.addEmployee(new Employee("Employee 2", 2000));
+        manager.addCompany(c1);
 
-    @Override
-    public void addCompanyEmpWage(String company, int empRatePerHour, int workingDays, int maxHoursPerMonth) {
-        CompanyEmpWage companyEmpWage = new CompanyEmpWage(company, empRatePerHour, workingDays, maxHoursPerMonth);
-        companyEmpWageList.add(companyEmpWage);
-    }
+        Company c2 = new Company("Company 2");
+        c2.addEmployee(new Employee("Employee 3", 1500));
+        c2.addEmployee(new Employee("Employee 4", 2500));
+        manager.addCompany(c2);
 
-    @Override
-    public void computeEmpWage() {
-        for (CompanyEmpWage companyEmpWage : companyEmpWageList) {
-            companyEmpWage.setTotalWage(this.calculateTotalWage(companyEmpWage));
-            System.out.println("Total wage for company: " + companyEmpWage.getCompanyName() + " is: " + companyEmpWage.getTotalWage());
+        ArrayList<Company> companies = manager.getCompanies();
+        for (Company company : companies) {
+            System.out.println("Company: " + company.getName());
+            System.out.println("Employees: ");
+            ArrayList<Employee> employees = company.getEmployees();
+            for (Employee employee : employees) {
+                System.out.println("  " + employee.getName() + " - $" + employee.getWage());
+            }
+            System.out.println("Total wage: $" + company.getTotalWage());
+            System.out.println();
         }
-    }
-
-    private int calculateTotalWage(CompanyEmpWage companyEmpWage) {
-        int totalEmpHrs = 0, totalWorkingDays = 0;
-        while (totalEmpHrs <= companyEmpWage.maxHoursPerMonth && totalWorkingDays < companyEmpWage.workingDays) {
-            totalWorkingDays++;
-            int empHrs = (int) Math.floor(Math.random() * 10 % 9 + 1);
-            totalEmpHrs += empHrs;
-        }
-        return totalEmpHrs * companyEmpWage.empRatePerHour;
     }
 }
-
