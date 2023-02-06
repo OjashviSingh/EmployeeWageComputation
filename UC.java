@@ -1,5 +1,10 @@
 import java.util.ArrayList;
 
+interface IComputeEmpWage {
+    public void addCompanyEmpWage(String company, int empRatePerHour, int workingDays, int maxHoursPerMonth);
+    public void computeEmpWage();
+}
+
 class CompanyEmpWage {
     String companyName;
     int empRatePerHour;
@@ -27,26 +32,28 @@ class CompanyEmpWage {
     }
 }
 
-class EmpWageBuilder {
+class EmpWageBuilder implements IComputeEmpWage {
     private ArrayList<CompanyEmpWage> companyEmpWageList;
 
     public EmpWageBuilder() {
         companyEmpWageList = new ArrayList<>();
     }
 
+    @Override
     public void addCompanyEmpWage(String company, int empRatePerHour, int workingDays, int maxHoursPerMonth) {
         CompanyEmpWage companyEmpWage = new CompanyEmpWage(company, empRatePerHour, workingDays, maxHoursPerMonth);
         companyEmpWageList.add(companyEmpWage);
     }
 
-    public void calculateEmpWage() {
+    @Override
+    public void computeEmpWage() {
         for (CompanyEmpWage companyEmpWage : companyEmpWageList) {
             companyEmpWage.setTotalWage(this.calculateTotalWage(companyEmpWage));
             System.out.println("Total wage for company: " + companyEmpWage.getCompanyName() + " is: " + companyEmpWage.getTotalWage());
         }
     }
 
-    public int calculateTotalWage(CompanyEmpWage companyEmpWage) {
+    private int calculateTotalWage(CompanyEmpWage companyEmpWage) {
         int totalEmpHrs = 0, totalWorkingDays = 0;
         while (totalEmpHrs <= companyEmpWage.maxHoursPerMonth && totalWorkingDays < companyEmpWage.workingDays) {
             totalWorkingDays++;
